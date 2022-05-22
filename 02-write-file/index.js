@@ -3,7 +3,7 @@ const path = require("path");
 const process = require("process");
 
 let question = () => {
-  process.stdout.write("Enter your text > ");
+  process.stdout.write("Enter your text and click Enter> ");
 };
 
 let createTextFile = () => {
@@ -15,8 +15,7 @@ createTextFile();
 
 process.stdin.on("data", (data) => {
   if (data.toString().trim() === "exit") {
-    // console.log("Good bye...");
-    process.exit();
+    cancel();
   } else {
     fs.appendFile(
       path.join(__dirname, ".", "text.txt"),
@@ -27,8 +26,9 @@ process.stdin.on("data", (data) => {
     );
   }
 });
-process.on("exit", (err) => {
-  if (err) throw err;
-  console.log("Good bye...");
-});
+function cancel() {
+  console.log("\n Good bye...");
+  process.exit();
+}
+process.on("SIGINT", cancel);
 question();
