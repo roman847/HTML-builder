@@ -15,7 +15,7 @@ createTextFile();
 
 process.stdin.on("data", (data) => {
   if (data.toString().trim() === "exit") {
-    console.log("Good bye...");
+    // console.log("Good bye...");
     process.exit();
   } else {
     fs.appendFile(
@@ -26,5 +26,9 @@ process.stdin.on("data", (data) => {
       }
     );
   }
+});
+process.on("exit", (err) => {
+  if (err) throw err;
+  console.log("Good bye...");
 });
 question();
