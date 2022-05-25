@@ -29,15 +29,12 @@ function removeFilesCopy() {
   });
 }
 
-function readAndWriteCopyFiles() {
+async function readAndWriteCopyFiles() {
   const pathDir = path.join(__dirname, "files");
-
-  fs.readdir(pathDir, (err, data) => {
-    if (err) throw err;
-    data.forEach((file) => {
-      fs.writeFile(path.join(__dirname, "files-copy", `${file}`), "", (err) => {
-        if (err) throw err;
-      });
-    });
-  });
+  const files = await fsPromises.readdir(pathDir);
+  for (let file of files) {
+    let srcFilePath = path.join(pathDir, `${file}`);
+    let copyFiles = path.join(path.join(__dirname, "files-copy", `${file}`));
+    await fsPromises.copyFile(srcFilePath, copyFiles);
+  }
 }
